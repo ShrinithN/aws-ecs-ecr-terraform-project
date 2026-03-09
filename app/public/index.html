@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>URL Shortener</title>
+
+<style>
+
+body{
+font-family: Arial;
+text-align:center;
+margin-top:100px;
+background:#f5f5f5;
+}
+
+.container{
+background:white;
+width:400px;
+margin:auto;
+padding:30px;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+h1{
+margin-bottom:20px;
+}
+
+input{
+padding:10px;
+width:80%;
+margin-bottom:10px;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+padding:10px 20px;
+border:none;
+background:#007BFF;
+color:white;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#0056b3;
+}
+
+#result{
+margin-top:20px;
+}
+
+.copy-btn{
+margin-top:10px;
+background:#28a745;
+}
+
+.copy-btn:hover{
+background:#1e7e34;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>URL Shortener</h1>
+
+<form id="shortenForm">
+
+<input
+type="text"
+id="urlInput"
+placeholder="Enter long URL"
+required
+/>
+
+<br>
+
+<button type="submit">Shorten</button>
+
+</form>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+document
+.getElementById("shortenForm")
+.addEventListener("submit", async function(e){
+
+e.preventDefault();
+
+const url = document.getElementById("urlInput").value;
+
+const response = await fetch("/shorten", {
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({url:url})
+});
+
+const data = await response.json();
+
+document.getElementById("result").innerHTML = `
+<p>Short URL:</p>
+<a href="${data.shortUrl}" target="_blank">${data.shortUrl}</a>
+<br>
+<button class="copy-btn" onclick="copyUrl('${data.shortUrl}')">Copy URL</button>
+`;
+
+});
+
+function copyUrl(url){
+
+navigator.clipboard.writeText(url);
+
+alert("URL copied to clipboard");
+
+}
+
+</script>
+
+</body>
+</html>

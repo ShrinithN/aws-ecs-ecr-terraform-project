@@ -1,6 +1,8 @@
 {
-  "name": "terraform-ecs-app",
+  "name": "url-shortener",
   "version": "1.0.0",
   "main": "app.js",
-  "dependencies": {}
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
